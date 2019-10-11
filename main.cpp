@@ -26,22 +26,15 @@ class Subject{
         {
             return lec_hours + pract_hours + 0,3 * lec_hours;
         }
-        Subject()
-        {
-            /*lec_hours = 2;
-            pract_hours = 3;
-            cout << "lec_hours = " << lec_hours << endl;
-            cout << "pract_hours = " << pract_hours << endl;*/
-
-        }
-        ~Subject()
-        {}
-        void Init(string name,int lec_hours, int pract_hours)
+        Subject(string name,int lec_hours, int pract_hours)
         {
             this->name = name;
             this->lec_hours = lec_hours;
             this->pract_hours = pract_hours;
+
         }
+        ~Subject()
+        {}
         void Display()
         {
             cout << this->name << ":" << endl;
@@ -59,10 +52,7 @@ class Subject{
 
 int main()
 {
-    Subject maths, physics, philosophy;
-    maths.Init("Maths", 2, 3);
-    physics.Init("Physics", 3, 6);
-    philosophy.Init("Philosophy", 4, 10);
+    Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
     maths.Display();
     physics.Display();
     philosophy.Display();
