@@ -12,17 +12,51 @@
 
 /*Предмет, изучаемый студентом в семестре имеет 2 целых поля: - количество лекционных часов и часов на практические занятия.
 Реализовать метод, вычисляющий общее число часов, при этом еще добавляется 30% от аудиторных  занятий на самостоятельную работу.
+*/
 
+using namespace std;
+
+class Subject{
+    private:
+        string name;
+        int lec_hours;
+        int pract_hours;
+    public:
+        int all_hours()
+        {
+            return lec_hours + pract_hours + 0,3 * lec_hours;
+        }
+        Subject(string name,int lec_hours, int pract_hours)
+        {
+            this->name = name;
+            this->lec_hours = lec_hours;
+            this->pract_hours = pract_hours;
+
+        }
+        ~Subject()
+        {}
+        void Display()
+        {
+            cout << this->name << ":" << endl;
+            cout << "lect hours = " << this->lec_hours << endl;
+            cout << "pract hours = " << this->pract_hours << endl;
+        }
+};
+
+/*
 Основным классом является класс студент, имеющий три поля предметов и 3 целочисленных поля – баллы, набранные по этим предметам.
 Реализовать метод, вычисляющий рейтинг студента. Рейтинг вычисляется как средний балл по трем предметам.
 Реализовать метод, определяющий предмет с наибольшим числом часов.
 */
 
-using namespace std;
-
 
 int main()
 {
-
+    Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
+    maths.Display();
+    physics.Display();
+    philosophy.Display();
+    int mathsHours = maths.all_hours();
+    cout << "all maths hours = " << mathsHours << endl;
     return 0;
 }
