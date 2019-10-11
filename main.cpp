@@ -14,15 +14,39 @@
 Реализовать метод, вычисляющий общее число часов, при этом еще добавляется 30% от аудиторных  занятий на самостоятельную работу.
 */
 
+using namespace std;
 
 class Subject{
     private:
+        string name;
         int lec_hours;
         int pract_hours;
     public:
         int all_hours()
         {
             return lec_hours + pract_hours + 0,3 * lec_hours;
+        }
+        Subject()
+        {
+            /*lec_hours = 2;
+            pract_hours = 3;
+            cout << "lec_hours = " << lec_hours << endl;
+            cout << "pract_hours = " << pract_hours << endl;*/
+
+        }
+        ~Subject()
+        {}
+        void Init(string name,int lec_hours, int pract_hours)
+        {
+            this->name = name;
+            this->lec_hours = lec_hours;
+            this->pract_hours = pract_hours;
+        }
+        void Display()
+        {
+            cout << this->name << ":" << endl;
+            cout << "lect hours = " << this->lec_hours << endl;
+            cout << "pract hours = " << this->pract_hours << endl;
         }
 };
 
@@ -32,11 +56,17 @@ class Subject{
 Реализовать метод, определяющий предмет с наибольшим числом часов.
 */
 
-using namespace std;
-
 
 int main()
 {
-
+    Subject maths, physics, philosophy;
+    maths.Init("Maths", 2, 3);
+    physics.Init("Physics", 3, 6);
+    philosophy.Init("Philosophy", 4, 10);
+    maths.Display();
+    physics.Display();
+    philosophy.Display();
+    int mathsHours = maths.all_hours();
+    cout << "all maths hours = " << mathsHours << endl;
     return 0;
 }
