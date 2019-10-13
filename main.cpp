@@ -65,8 +65,8 @@ class Student{
             this->subjectScores[1] = subScore2;
             this->subjectScores[2] = subScore3;
         }
-        ~Student()
-        {}
+        Student(){}
+        ~Student(){}
         void Display()
         {
             //cout << "Subject name\tSubject Scores\n";
