@@ -49,14 +49,69 @@ class Subject{
 Реализовать метод, определяющий предмет с наибольшим числом часов.
 */
 
+class Student{
+    private:
+        string name;
+        Subject subject[3] = {Subject("", 0, 0), Subject("", 0, 0), Subject("", 0, 0)};
+        int subjectScores[3];
+    public:
+        Student(string name, Subject subject1, Subject subject2, Subject subject3, int subScore1, int subScore2, int subScore3)
+        {
+            this->name = name;
+            this->subject[0] = subject1;
+            this->subject[1] = subject2;
+            this->subject[2] = subject3;
+            this->subjectScores[0] = subScore1;
+            this->subjectScores[1] = subScore2;
+            this->subjectScores[2] = subScore3;
+        }
+        ~Student()
+        {}
+        void Display()
+        {
+            //cout << "Subject name\tSubject Scores\n";
+            cout << this->name << ":\n";
+            cout << "\tsubjects:\n";
+            for(int i = 0; i < 3; i++)
+            {
+                this->subject[i].Display();
+                cout << "rating in subject - " << subjectScores[i] << endl;
+            }
+        }
+        float rating()
+        {
+            return (subjectScores[0] + subjectScores[1] + subjectScores[2]) / 3;
+        }
+        Subject maxHoursSubject()
+        {
+            Subject max("", 0, 0);
+            max = subject[0];
+            for(int i = 1; i < 3; i++)
+            {
+                if (subject[i].all_hours() > max.all_hours())
+                    max = subject[i];
+            }
+            return max;
+        }
+};
 
 int main()
 {
+    cout << "\tchecking the operation of the class Subject:\n";
     Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
     maths.Display();
     physics.Display();
     philosophy.Display();
     int mathsHours = maths.all_hours();
-    cout << "all maths hours = " << mathsHours << endl;
+    cout << "all math   s hours = " << mathsHours << endl;
+//////////////////////////////
+    cout << "\tchecking the operation of the class Student:\n";
+    Student student("Volodia", maths, physics, philosophy, 65, 70, 40);
+    student.Display();
+    float studentRating = student.rating();
+    Subject max_hours_subject = student.maxHoursSubject();
+    cout << "\tstudent rating = " << studentRating << endl;
+    cout << "\tmost horses subject:" << endl;
+    max_hours_subject.Display();
     return 0;
 }
