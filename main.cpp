@@ -33,8 +33,8 @@ class Subject{
             this->pract_hours = pract_hours;
 
         }
-        ~Subject()
-        {}
+        Subject(){}
+        ~Subject(){}
         void Display()
         {
             cout << this->name << ":" << endl;
@@ -52,7 +52,7 @@ class Subject{
 class Student{
     private:
         string name;
-        Subject subject[3] = {Subject("", 0, 0), Subject("", 0, 0), Subject("", 0, 0)};
+        Subject subject[3];
         int subjectScores[3];
     public:
         Student(string name, Subject subject1, Subject subject2, Subject subject3, int subScore1, int subScore2, int subScore3)
@@ -69,7 +69,6 @@ class Student{
         ~Student(){}
         void Display()
         {
-            //cout << "Subject name\tSubject Scores\n";
             cout << this->name << ":\n";
             cout << "\tsubjects:\n";
             for(int i = 0; i < 3; i++)
@@ -84,7 +83,7 @@ class Student{
         }
         Subject maxHoursSubject()
         {
-            Subject max("", 0, 0);
+            Subject max;
             max = subject[0];
             for(int i = 1; i < 3; i++)
             {
@@ -97,15 +96,15 @@ class Student{
 
 int main()
 {
-    cout << "\tchecking the operation of the class Subject:\n";
+    cout << "\tchecking methods of the class Subject:\n";
     Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
     maths.Display();
     physics.Display();
     philosophy.Display();
     int mathsHours = maths.all_hours();
-    cout << "all math   s hours = " << mathsHours << endl;
+    cout << "all maths hours = " << mathsHours << endl;
 //////////////////////////////
-    cout << "\tchecking the operation of the class Student:\n";
+    cout << "\tchecking methods of the class Student:\n";
     Student student("Volodia", maths, physics, philosophy, 65, 70, 40);
     student.Display();
     float studentRating = student.rating();
