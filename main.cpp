@@ -47,19 +47,66 @@ class Occupier{
         }
 };
 /*
-Основным классом является класс комната(в общаге), имеющий поле - номер комнаты, три поля студентов проживающих в комнате и целочисленое поле - кол - во нарушений относительно состояния комнаты.
-Реализовать метод, вычисляющий рейтинг рейтинг комнаты("Успешность комнаты"). Рейтинг вычисляется как средний балл по трем предметам.
+Основным классом является класс комната(в общаге), имеющий поле - номер комнаты, три поля студентов проживающих в комнате и целочисленое поле - кол - во нарушений по поводу состояния комнаты.
+Реализовать метод, вычисляющий рейтинг рейтинг комнаты("Успешность комнаты").
 Реализовать метод, определяющий будет ли вызвана комната на студ совет и кто из студентов должен там присутствовать.
 */
-
+class Room{
+    private:
+        int num;
+        Occupier occupiers[3];
+        int violations;
+    public:
+        Room(){}
+        Room(int num, Occupier occupier1, Occupier occupier2, Occupier occupier3, int violations)
+        {
+            this->num = num;
+            this->occupiers[0] = occupier1;
+            this->occupiers[1] = occupier2;
+            this->occupiers[2] = occupier3;
+            this->violations = violations;
+        }
+        ~Room(){}
+        void Display()
+        {
+            cout << "Room's number: " << num << endl;
+            cout << "\tstudents: \n";
+            for(int i = 0; i < 3; i++)
+            {
+                occupiers[i].Display();
+            }
+            cout << "violations in room = " << violations << endl;
+        }
+        int rating()
+        {
+            return (occupiers[0].rating() + occupiers[1].rating() + occupiers[2].rating()) / 3;
+        }
+        bool studentCouncil()
+        {
+            cout << "\tstudent council decision:\n";
+            if(rating() < 25 )
+            {
+                cout << "Yes\n";
+                cout << "bad students: \n";
+                for(int i = 0; i < 3; i++)
+                {
+                    if(occupiers[i].rating() < 25)
+                        occupiers[i].Display();
+                }
+                return true;
+            }
+            cout << "No\n";
+            return false;
+        }
+};
 
 
 int main()
 {
     setlocale(0, "");
 
-    cout << "\tchecking methods of the class Subject:\n";
-    Occupier occupier1("Aleksey", 1, 1, 0), occupier2("Aleksandr", 3, 2, 1), occupier3("Sergey", 0, 0, 3);
+    cout << "\tchecking methods of the class Occupier:\n";
+    Occupier occupier1("Aleksey", 1, 1, 3), occupier2("Aleksandr", 3, 2, 4), occupier3("Sergey", 2, 2, 3);
     occupier1.Display();
     cout << "rating = " << occupier1.rating() << endl;
     occupier2.Display();
@@ -68,6 +115,10 @@ int main()
     cout << "rating = " << occupier3.rating() << endl;
 
 //////////////////////////////
-
+    cout << "\tchecking methods of the class Room:\n";
+    Room room(71, occupier1, occupier2, occupier3, 3);
+    room.Display();
+    cout << "Room's rating = " << room.rating() << endl;
+    room.studentCouncil();
     return 0;
 }
