@@ -1,4 +1,5 @@
 #include <iostream>
+#include <locale.h>
 
 using namespace std;
 
@@ -15,7 +16,36 @@ using namespace std;
 Вспомогательнй класс жилец комнаты, имеющий поле имя жильца, два целочисленных поля: долгов по суботникам и вахтам и целочисленое поле - кол - во прочих нарушений.
 Реализовать метод, считающий рейтинг студента в общаге.
 */
-
+class Occupier{
+    private:
+        string name;
+        int hostelWorkDebts;
+        int shiftWorkDebts;
+        int violations;
+    public:
+        Occupier(){}
+        Occupier(string name, int hostelWorkDebts, int shiftWorkDebts, int violations)
+        {
+            this->name = name;
+            this->hostelWorkDebts = hostelWorkDebts;
+            this->shiftWorkDebts = shiftWorkDebts;
+            this->violations = violations;
+        }
+        ~Occupier(){}
+        void Display()
+        {
+            cout << name << ":" << endl;
+            cout << "hostelWorkDebts = " << hostelWorkDebts << endl;
+            cout << "shiftWorkDebts = " << shiftWorkDebts << endl;
+            cout << "violations = " << violations << endl;
+        }
+        int rating()
+        {
+            int rat = 100 - (hostelWorkDebts + shiftWorkDebts) * 10 - violations * 15;
+            if (rat < 0) rat = 0;
+            return rat;
+        }
+};
 /*
 Основным классом является класс комната(в общаге), имеющий поле - номер комнаты, три поля студентов проживающих в комнате и целочисленое поле - кол - во нарушений относительно состояния комнаты.
 Реализовать метод, вычисляющий рейтинг рейтинг комнаты("Успешность комнаты"). Рейтинг вычисляется как средний балл по трем предметам.
@@ -26,21 +56,18 @@ using namespace std;
 
 int main()
 {
+    setlocale(0, "");
+
     cout << "\tchecking methods of the class Subject:\n";
-    Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
-    maths.Display();
-    physics.Display();
-    philosophy.Display();
-    int mathsHours = maths.all_hours();
-    cout << "all maths hours = " << mathsHours << endl;
+    Occupier occupier1("Aleksey", 1, 1, 0), occupier2("Aleksandr", 3, 2, 1), occupier3("Sergey", 0, 0, 3);
+    occupier1.Display();
+    cout << "rating = " << occupier1.rating() << endl;
+    occupier2.Display();
+    cout << "rating = " << occupier2.rating() << endl;
+    occupier3.Display();
+    cout << "rating = " << occupier3.rating() << endl;
+
 //////////////////////////////
-    cout << "\tchecking methods of the class Student:\n";
-    Student student("Volodia", maths, physics, philosophy, 65, 70, 40);
-    student.Display();
-    float studentRating = student.rating();
-    Subject max_hours_subject = student.maxHoursSubject();
-    cout << "\tstudent rating = " << studentRating << endl;
-    cout << "\tmost horses subject:" << endl;
-    max_hours_subject.Display();
+
     return 0;
 }
