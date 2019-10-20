@@ -1,116 +1,124 @@
 #include <iostream>
+#include <locale.h>
+
+using namespace std;
 
 /*
 1. Реализовать вспомогательный класс по варианту задания с указанными полями и методами. Должны быть также реализованы методы Init и Display.
  Продемонстрировать работу всех методов в main.
 2. Создать основной класс по варианту задания, полями которого являются объекты вспомогательного класса.  Реализовать указанные методы.
 В main продемонстрировать использование объектов основного класса. В основном классе должно быть строковое поле названия в виде массива char.
-
 3. Придумать свой вариант задания для этой ЛР (аналогично представленным ниже вариантам) и реализовать его.
 Чем интереснее и оригинальнее задание, тем выше оценка...
 */
 
-/*Предмет, изучаемый студентом в семестре имеет 2 целых поля: - количество лекционных часов и часов на практические занятия.
-Реализовать метод, вычисляющий общее число часов, при этом еще добавляется 30% от аудиторных  занятий на самостоятельную работу.
+/*
+Вспомогательнй класс жилец комнаты, имеющий поле имя жильца, два целочисленных поля: долгов по суботникам и вахтам и целочисленое поле - кол - во прочих нарушений.
+Реализовать метод, считающий рейтинг студента в общаге.
 */
-
-using namespace std;
-
-class Subject{
+class Occupier{
     private:
         string name;
-        int lec_hours;
-        int pract_hours;
+        int hostelWorkDebts;
+        int shiftWorkDebts;
+        int violations;
     public:
-        int all_hours()
-        {
-            return lec_hours + pract_hours + 0,3 * lec_hours;
-        }
-        Subject(string name,int lec_hours, int pract_hours)
+        Occupier(){}
+        Occupier(string name, int hostelWorkDebts, int shiftWorkDebts, int violations)
         {
             this->name = name;
-            this->lec_hours = lec_hours;
-            this->pract_hours = pract_hours;
-
+            this->hostelWorkDebts = hostelWorkDebts;
+            this->shiftWorkDebts = shiftWorkDebts;
+            this->violations = violations;
         }
-        Subject(){}
-        ~Subject(){}
+        ~Occupier(){}
         void Display()
         {
-            cout << this->name << ":" << endl;
-            cout << "lect hours = " << this->lec_hours << endl;
-            cout << "pract hours = " << this->pract_hours << endl;
+            cout << name << ":" << endl;
+            cout << "hostelWorkDebts = " << hostelWorkDebts << endl;
+            cout << "shiftWorkDebts = " << shiftWorkDebts << endl;
+            cout << "violations = " << violations << endl;
+        }
+        int rating()
+        {
+            int rat = 100 - (hostelWorkDebts + shiftWorkDebts) * 10 - violations * 15;
+            if (rat < 0) rat = 0;
+            return rat;
         }
 };
-
 /*
-Основным классом является класс студент, имеющий три поля предметов и 3 целочисленных поля – баллы, набранные по этим предметам.
-Реализовать метод, вычисляющий рейтинг студента. Рейтинг вычисляется как средний балл по трем предметам.
-Реализовать метод, определяющий предмет с наибольшим числом часов.
+Основным классом является класс комната(в общаге), имеющий поле - номер комнаты, три поля студентов проживающих в комнате и целочисленое поле - кол - во нарушений по поводу состояния комнаты.
+Реализовать метод, вычисляющий рейтинг рейтинг комнаты("Успешность комнаты").
+Реализовать метод, определяющий будет ли вызвана комната на студ совет и кто из студентов должен там присутствовать.
 */
-
-class Student{
+class Room{
     private:
-        string name;
-        Subject subject[3];
-        int subjectScores[3];
+        int num;
+        Occupier occupiers[3];
+        int violations;
     public:
-        Student(string name, Subject subject1, Subject subject2, Subject subject3, int subScore1, int subScore2, int subScore3)
+        Room(){}
+        Room(int num, Occupier occupier1, Occupier occupier2, Occupier occupier3, int violations)
         {
-            this->name = name;
-            this->subject[0] = subject1;
-            this->subject[1] = subject2;
-            this->subject[2] = subject3;
-            this->subjectScores[0] = subScore1;
-            this->subjectScores[1] = subScore2;
-            this->subjectScores[2] = subScore3;
+            this->num = num;
+            this->occupiers[0] = occupier1;
+            this->occupiers[1] = occupier2;
+            this->occupiers[2] = occupier3;
+            this->violations = violations;
         }
-        Student(){}
-        ~Student(){}
+        ~Room(){}
         void Display()
         {
-            cout << this->name << ":\n";
-            cout << "\tsubjects:\n";
+            cout << "Room's number: " << num << endl;
+            cout << "\tstudents: \n";
             for(int i = 0; i < 3; i++)
             {
-                this->subject[i].Display();
-                cout << "rating in subject - " << subjectScores[i] << endl;
+                occupiers[i].Display();
             }
+            cout << "violations in room = " << violations << endl;
         }
-        float rating()
+        int rating()
         {
-            return (subjectScores[0] + subjectScores[1] + subjectScores[2]) / 3;
+            return (occupiers[0].rating() + occupiers[1].rating() + occupiers[2].rating()) / 3;
         }
-        Subject maxHoursSubject()
+        bool studentCouncil()
         {
-            Subject max;
-            max = subject[0];
-            for(int i = 1; i < 3; i++)
+            cout << "\tstudent council decision:\n";
+            if(rating() < 25 )
             {
-                if (subject[i].all_hours() > max.all_hours())
-                    max = subject[i];
+                cout << "Yes\n";
+                cout << "bad students: \n";
+                for(int i = 0; i < 3; i++)
+                {
+                    if(occupiers[i].rating() < 25)
+                        occupiers[i].Display();
+                }
+                return true;
             }
-            return max;
+            cout << "No\n";
+            return false;
         }
 };
+
 
 int main()
 {
-    cout << "\tchecking methods of the class Subject:\n";
-    Subject maths("Maths", 2, 3), physics("Physics", 3, 6), philosophy("Philosophy", 4, 10);
-    maths.Display();
-    physics.Display();
-    philosophy.Display();
-    int mathsHours = maths.all_hours();
-    cout << "all maths hours = " << mathsHours << endl;
+    setlocale(0, "");
+
+    cout << "\tchecking methods of the class Occupier:\n";
+    Occupier occupier1("Aleksey", 1, 1, 3), occupier2("Aleksandr", 3, 2, 4), occupier3("Sergey", 2, 1, 3);
+    occupier1.Display();
+    cout << "rating = " << occupier1.rating() << endl;
+    occupier2.Display();
+    cout << "rating = " << occupier2.rating() << endl;
+    occupier3.Display();
+    cout << "rating = " << occupier3.rating() << endl;
+
 //////////////////////////////
-    cout << "\tchecking methods of the class Student:\n";
-    Student student("Volodia", maths, physics, philosophy, 65, 70, 40);
-    student.Display();
-    float studentRating = student.rating();
-    Subject max_hours_subject = student.maxHoursSubject();
-    cout << "\tstudent rating = " << studentRating << endl;
-    cout << "\tmost horses subject:" << endl;
-    max_hours_subject.Display();
+    cout << "\tchecking methods of the class Room:\n";
+    Room room(71, occupier1, occupier2, occupier3, 3);
+    room.Display();
+    cout << "Room's rating = " << room.rating() << endl;
+    room.studentCouncil();
     return 0;
 }
