@@ -106,7 +106,7 @@ int main()
     setlocale(0, "");
 
     cout << "\tchecking methods of the class Occupier:\n";
-    Occupier occupier1("Aleksey", 1, 1, 3), occupier2("Aleksandr", 3, 2, 4), occupier3("Sergey", 2, 2, 3);
+    Occupier occupier1("Aleksey", 1, 1, 3), occupier2("Aleksandr", 3, 2, 4), occupier3("Sergey", 2, 1, 3);
     occupier1.Display();
     cout << "rating = " << occupier1.rating() << endl;
     occupier2.Display();
